@@ -76,4 +76,4 @@ function updateStatus(){
                 var newtext = "yikes! something failed miserably";
                 document.getElementById("code").value = newtext;}}); } else 
                 {     document.getElementById("status").innerHTML = "you have to start a world to save";} }}
-window.onload=function(){return updateStatus()};
+
