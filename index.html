@@ -143,8 +143,8 @@ var isRunning = false;
 
 function run() { 
   if(isRunning){
-    
-  cancelRequestAnimFrame(request);
+    stop()
+  
    var l = myCodeMirror.getValue()
     return eval(l); 
   }
@@ -154,7 +154,9 @@ function run() {
     return eval(l); 
   }
 }
-
+function stop(){
+  cancelRequestAnimFrame(request);
+}
 var requestAnimFrame = (function(){
     return window.requestAnimationFrame    ||
         window.webkitRequestAnimationFrame ||
