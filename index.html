@@ -155,6 +155,7 @@ function run() {
   }
 }
 function stop(){
+  isRunning = false;
   cancelRequestAnimFrame(request);
 }
 var requestAnimFrame = (function(){
