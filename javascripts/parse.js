@@ -69,11 +69,10 @@ function updateStatus(){
             success: function(object) {              document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
                 var newtext = currentUser.get("code");
                 document.getElementById("code").value = newtext;
-        myCodeMirror.setValue(newtext) 
+        myCodeMirror.setValue(newtext); 
             },
             error:function() {
                 document.getElementById("status").innerHTML = "oops... try again";
                 var newtext = "yikes! something failed miserably";
                 document.getElementById("code").value = newtext;}}); } else 
-                {     document.getElementById("status").innerHTML = "you have to start a world to save";} }}
-
+                {     document.getElementById("status").innerHTML = "you have to start a world to save";}}
