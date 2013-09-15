@@ -59,11 +59,12 @@ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0Vp
 
 function updateStatus(){
   document.getElementById("status").innerHTML = "please wait...";
-window.onload = function(){ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
+ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
     var currentUser = Parse.User.current();
     if (currentUser) {
         var userName = currentUser.getUsername();
-        var query = new Parse.Query(Parse.User); document.getElementById("status").innerHTML = "please wait...";
+        var query = new Parse.Query(Parse.User);
+        document.getElementById("status").innerHTML = "please wait...";
         query.get(Parse.User("code"),{
             success: function(object) {              document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
                 var newtext = currentUser.get("code");
@@ -73,5 +74,6 @@ window.onload = function(){ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwD
             error:function() {
                 document.getElementById("status").innerHTML = "oops... try again";
                 var newtext = "yikes! something failed miserably";
-                document.getElementById("code").value = newtext;}}); } else {     document.getElementById("status").innerHTML = "you have to start a world to save";} };}
-updateStatus(); 
+                document.getElementById("code").value = newtext;}}); } else 
+                {     document.getElementById("status").innerHTML = "you have to start a world to save";} }}
+window.onload=function(){return updateStatus()};
