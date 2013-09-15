@@ -95,7 +95,7 @@ Password<input type="password" name="pswrd"/>
  <!--Had to make a table here, pretty wierd, but it works-->
   <table id="button_wrapper">
     <tr><td colspan="2">
-<canvas id="canvas" style="border: none; background-color: blue;" width="500" height="500"></canvas>
+<canvas id="canvas" style="border: none; background-color: #0C1021;" width="500" height="500"></canvas>
       </td>
         <td><button onclick="run()"> play </button></td>
         <td><button onclick="stop()"> stop </button></td>
@@ -138,18 +138,23 @@ tri.render();
 //here we initialize the canvas and the console to write code in
 var canvas = document.getElementById("canvas");
 var gl = canvas.getContext("experimental-webgl");
-var cnsl = document.getElementById('code');
+var isRunning = false;
 //this obviously evaluates the code in the text editor
-//note that if you are using this in codeacademy
-//you will actually have to copy and paste the code from the html into the text editor. I do not know why
-function run() {  
+
+function run() { 
+  if(isRunning){
+    
+  cancelRequestAnimFrame(request);
    var l = myCodeMirror.getValue()
     return eval(l); 
+  }
+  else{
+    isRunning = true;
+    var l = myCodeMirror.getValue()
+    return eval(l); 
+  }
 }
-  function stop() {  
-   
-   cancelRequestAnimFrame(request); 
-}
+
 var requestAnimFrame = (function(){
     return window.requestAnimationFrame    ||
         window.webkitRequestAnimationFrame ||
