@@ -58,9 +58,10 @@ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0Vp
           }});}
 
 
+
 function updateStatus(){
   document.getElementById("status").innerHTML = "please wait...";
-window.onload = function(){ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
+ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
     var currentUser = Parse.User.current();
     if (currentUser) {
         var userName = currentUser.getUsername();
@@ -69,10 +70,10 @@ window.onload = function(){ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwD
             success: function(object) {              document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
                 var newtext = currentUser.get("code");
                 document.getElementById("code").value = newtext;
-        myCodeMirror.setValue(newtext) 
+        myCodeMirror.setValue(newtext); 
             },
             error:function() {
                 document.getElementById("status").innerHTML = "oops... try again";
                 var newtext = "yikes! something failed miserably";
-                document.getElementById("code").value = newtext;}}); } else {    
-                  document.getElementById("status").innerHTML = "you have to start a world to save";} };}             
+                document.getElementById("code").value = newtext;}}); } else {  
+                document.getElementById("status").innerHTML = "you have to start a world to save";} }          
