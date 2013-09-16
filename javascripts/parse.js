@@ -43,7 +43,7 @@ function logout(){
         Parse.User.logOut();
         var oldCode = document.getElementById("code");
         myCodeMirror.setValue(oldCode.value)
-       return updateStatus();
+       return updateStatus;
   
 }           
 
