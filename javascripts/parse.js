@@ -43,8 +43,7 @@ function logout(){
         Parse.User.logOut();
         var oldCode = document.getElementById("code");
         myCodeMirror.setValue(oldCode.value)
-       return updateStatus;
-  
+        document.getElementById("status").innerHTML = "you have to start a world to save";
 }           
 
 function signup(form){
