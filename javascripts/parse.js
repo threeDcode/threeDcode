@@ -10,10 +10,12 @@ function save(){
  Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
         var currentUser = Parse.User.current();
   if (currentUser) {
-      var code = document.getElementById("code");
-  document.getElementById("status").innerHTML = "please wait...";
-  var userName = currentUser.getUsername();
-        currentUser.set("code",code.value);
+      
+        document.getElementById("status").innerHTML = "please wait...";
+        var userName = currentUser.getUsername();
+  
+        document.getElementById("code").value = newtext;
+        currentUser.set("code",newtext);
         currentUser.save(null, {
             success: function(object) { document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
             },
@@ -28,16 +30,21 @@ function loging(form){
        
         Parse.User.logIn(form.userid.value, form.pswrd.value, {
             success: function(user) {
-    var currentUser = Parse.User.current();
-      var userName = currentUser.getUsername();
-       var newtext = currentUser.get("code");
-                document.getElementById("code").value = newtext;
-         var myCodeMirror = CodeMirror.fromTextArea(code,{
-      lineNumbers:true,
-      lineWrapping:true
-    });                    document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
+            var currentUser = Parse.User.current();
+            var userName = currentUser.getUsername();
+            var newtext = currentUser.get("code");
+            myCodeMirror.setValue(newtext); 
+            document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
             },
-           error: function() { document.getElementById("status").innerHTML = "oops... try again";}});}
+           error: function() { document.getElementById("status").innerHTML = "oops... try again";}});
+  }
+function logout(){
+     document.getElementById("status").innerHTML = "Please wait...";
+   Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
+        Parse.User.logOut();
+       return getStatus();
+  
+}           
 
 function signup(form){
 Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
