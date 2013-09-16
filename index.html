@@ -50,7 +50,7 @@
   
   <div id="statusBar">
     <!--here's the html for all the user and database stuff. you can find the javascript in the javascript section -->
-    yo!try with stop
+    yo!try without animation
     <table>
       <td>
         <div id="status"></div> 
@@ -145,7 +145,7 @@ var isRunning = false;
 
 function run() { 
   if(isRunning){
-    stop()
+    //stop()
   
    var l = myCodeMirror.getValue()
     return eval(l); 
@@ -160,16 +160,7 @@ function stop(){
   isRunning = false;
   cancelRequestAnimFrame(request);
 }
-var requestAnimFrame = (function(){
-    return window.requestAnimationFrame    ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        window.oRequestAnimationFrame      ||
-        window.msRequestAnimationFrame     ||
-        function(callback){
-            window.setTimeout(callback, 1000 / 60);
-        };
-})(); 
+
  window.cancelRequestAnimFrame = ( function() {
     return window.cancelAnimationFrame           ||
         window.webkitCancelRequestAnimationFrame ||
