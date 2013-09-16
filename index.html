@@ -46,8 +46,7 @@
     <!-- HEADER -->
   
 
-   tried to add the float array
-
+   changing the background on the canvas
   
   <div id="statusBar">
     <!--here's the html for all the user and database stuff. you can find the javascript in the javascript section -->
@@ -95,10 +94,10 @@ Password<input type="password" name="pswrd"/>
   
   <h3>Make Your Own 3d World</h3>
   
- <!--Had to make a table here, pretty wierd, but it works-->
+ <!--Had to make a table here, pretty wierd, but it works  #0C1021-->
   <table id="button_wrapper">
     <tr><td colspan="2">
-<canvas id="canvas" style="border: none; background-color: #0C1021;" width="500" height="500"></canvas>
+<canvas id="canvas" style="border: none; background-color: black;" width="500" height="500"></canvas>
       </td>
         <td><button onclick="run()"> play </button></td>
   
@@ -182,10 +181,10 @@ var requestAnimFrame = (function(){
 //this a whole bunch of webGL stuff
 //from http://learningwebgl.com/blog/?p=134
 //apparently you don't need the next line of code?
-
+/*
 // glMatrix v0.9.5
 glMatrixArrayType = typeof Float32Array != "undefined" ? Float32Array : typeof WebGLFloatArray != "undefined" ? WebGLFloatArray : Array;
-
+*/
 function getShader(gl, id) {var shaderScript = document.getElementById(id);if (!shaderScript) {return null;}var str = "";var k = shaderScript.firstChild;while (k) {if (k.nodeType == 3) {str += k.textContent;}k = k.nextSibling;}var shader;if (shaderScript.type == "x-shader/x-fragment") {shader = gl.createShader(gl.FRAGMENT_SHADER);} else if (shaderScript.type == "x-shader/x-vertex") {shader = gl.createShader(gl.VERTEX_SHADER);} else {return null;}gl.shaderSource(shader, str);gl.compileShader(shader);if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {alert(gl.getShaderInfoLog(shader));return null;}return shader;}
 var shaderProgram;
 function initShaders() {var fragmentShader = getShader(gl, "shader-fs");var vertexShader = getShader(gl, "shader-vs");shaderProgram = gl.createProgram();gl.attachShader(shaderProgram, vertexShader);gl.attachShader(shaderProgram, fragmentShader);gl.linkProgram(shaderProgram);if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {alert("Could not initialise shaders");}gl.useProgram(shaderProgram);shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");}
