@@ -50,7 +50,7 @@
   
   <div id="statusBar">
     <!--here's the html for all the user and database stuff. you can find the javascript in the javascript section -->
-    yo! parse should be working now
+    yo! parse should be working now, working on the colors 
     <table>
       <td>
         <div id="status"></div> 
@@ -145,7 +145,7 @@ var isRunning = false;
 
 function run() { 
   if(isRunning){
-    //stop()
+    stop()
   
    var l = myCodeMirror.getValue()
     return eval(l); 
@@ -160,7 +160,16 @@ function stop(){
   isRunning = false;
   cancelRequestAnimFrame(request);
 }
-
+var requestAnimFrame = (function(){
+    return window.requestAnimationFrame    ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame    ||
+        window.oRequestAnimationFrame      ||
+        window.msRequestAnimationFrame     ||
+        function(callback){
+            window.setTimeout(callback, 1000 / 60);
+        };
+})();
  window.cancelRequestAnimFrame = ( function() {
     return window.cancelAnimationFrame           ||
         window.webkitCancelRequestAnimationFrame ||
@@ -212,8 +221,12 @@ function glRender(vertices,colors){
             for(var m= 0;m<9;m++){
                 glVertices.push(vertices[k][m]);
             }
-            for(var n = 0 ; n < 12; n++){
-                glColors.push(colors[k][n]);   
+            if(colors[k].length === 3){
+              glColors.push(colors[k][0],colors[k][1],colors[k][2],1,colors[k][0],colors[k][1],colors[k][2],1,colors[k][0],colors[k][1],colors[k][2],0.1)
+            } else {
+                for(var n = 0 ; n < 12; n++){
+                  glColors.push(colors[k][n]);
+                }  
             }
         }
         //here's some crazy code that actually talks directly to your graphics processor (I think)
