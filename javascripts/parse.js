@@ -13,9 +13,8 @@ function save(){
       
         document.getElementById("status").innerHTML = "please wait...";
         var userName = currentUser.getUsername();
-  
-        document.getElementById("code").value = newtext;
-        currentUser.set("code",newtext);
+        var newText = myCodeMirror.getValue()
+        currentUser.set("code",newText);
         currentUser.save(null, {
             success: function(object) { document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
             },
@@ -32,8 +31,8 @@ function loging(form){
             success: function(user) {
             var currentUser = Parse.User.current();
             var userName = currentUser.getUsername();
-            var newtext = currentUser.get("code");
-            myCodeMirror.setValue(newtext); 
+            var newText = currentUser.get("code");
+            myCodeMirror.setValue(newText); 
             document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
             },
            error: function() { document.getElementById("status").innerHTML = "oops... try again";}});
@@ -42,6 +41,8 @@ function logout(){
      document.getElementById("status").innerHTML = "Please wait...";
    Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0VpgAWsLG1mtKagM50K8f9H9");
         Parse.User.logOut();
+        var oldCode = document.getElementById("code");
+        myCodeMirror.setValue(oldCode.value)
        return getStatus();
   
 }           
@@ -53,8 +54,8 @@ Parse.initialize("pp3bsoOMSes3dtCQK2L6GO6Y1VH9FJDVwDz2nNLD","vArgfc0Ip0e5lRnS0Vp
         var user = new Parse.User();
         user.set("username",form.userid.value);
         user.set("password",form.pswrd.value);
-  var code = document.getElementById("code");
-  user.set("code",code.value);
+  var newText = myCodeMirror.getValue()
+  user.set("code",newText);
         user.signUp(null, {
             success: function(user) {
                 var currentUser = Parse.User.current();              
@@ -77,7 +78,7 @@ function updateStatus(){
             success: function(object) {              document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
                 var newtext = currentUser.get("code");
                 document.getElementById("code").value = newtext;
-        myCodeMirror.setValue(newtext); 
+                myCodeMirror.setValue(newtext); 
             },
             error:function() {
                 document.getElementById("status").innerHTML = "oops... try again";
