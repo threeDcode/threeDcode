@@ -76,7 +76,6 @@ function updateStatus(){
         query.get(Parse.User("code"),{
             success: function(object) {              document.getElementById("status").innerHTML = "you are making the 3D world: "+userName+". ";
                 var newtext = currentUser.get("code");
-                document.getElementById("code").value = newtext;
                 myCodeMirror.setValue(newtext); 
             },
             error:function() {
