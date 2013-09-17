@@ -97,37 +97,190 @@ Password<input type="password" name="pswrd"/>
     <tr><td colspan="2">
 <canvas id="canvas" style="border: none; background-color: grey;" width="500" height="500"></canvas>
       </td>
-        <td><button onclick="run()"> play </button></td>
+        <td><button onclick="run()"> run </button></td>
   
   </table>
 
    <textarea id="code" cols="60" rows="30">
-//Stop!
-//go directly to the very bottom of this text and look for the function tick()
- 
-function triangle(vertices,r,g,b){
+//Making your own maze is easy
+//Scroll down to line 61 and follow the directions there
+//
+//
+//
+//
+//
+//this is the basic building block of the maze, it's a cube.
+//3D graphics use triangles to render graphics
+//one needs a lot of triangles to make a cube
+function cube(x,y,z,height,width,depth,red,green,blue){
     this.vertices = function(){
-        return [vertices];
+        return [[x,y,z,x+width,y,z,x,y+height,z],[x+width,y,z,x,y+height,z,x+width,y+height,z],[x,y,z,x+width,y,z,x,y,z+depth],[x+width,y,z,x,y,z+depth,x+width,y,z+depth],[x+width,y,z+depth,x+width,y+height,z+depth,x,y+height,z+depth],[x+width,y,z+depth,x,y,z+depth,x,y+height,z+depth],[x+width,y+height,z+depth,x,y+height,z+depth,x,y+height,z],[x+width,y+height,z+depth,x,y+height,z,x+width,y+height,z],[x+width,y+height,z+depth,x+width,y,z+depth,x+width,y+height,z],[x+width,y,z,x+width,y,z+depth,x+width,y+height,z],[x,y+height,z+depth,x,y,z+depth,x,y+height,z],[x,y,z,x,y,z+depth,x,y+height,z]];
     };
-    this.colors = function(){   
-        return [[r,g,b,1,r,g,b,1,r,g,b,0.1]];
-    };
-    this.render = function(){
-        glRender(this.vertices(),this.colors());
+    this.colors = function(){
+        var colors = [];
+        for(var i = 0; i<12;i++){
+            colors.push([red,green,blue]);
+        }
+        return colors;
     };
 }
-//every triangle has three vertices,  
-//and each vertex has three coordinates x,y and z
-//thus, the triangle will need 9 coordinates all together
-//for example [0,0,-1,1,1,-1,1,-1,-1]
-//the triangle function also takes colors: red, green, blue 
-//from a value of 0 to 1
-//if you uncomment the following two lines of code
-//you should see a triangle (be sure to turn the tick function off down below)
-// 
-var tri = new triangle([0,0,-1,1,1,-1,1,-1,-1],0,0,1);
-tri.render();
-//
+
+
+//here's the scene function
+//this is where it all comes together  
+//you can chain multiple scenes together to get some truly cool results
+  
+function scene(x,y,z,angleX,angleY,angleZ){
+    var vertices = [];
+    var colors = [];
+    this.add = function(obj){
+        for(var i = 0 ; i< obj.vertices().length;i++){
+            var temp = [];
+            for(var j = 0; j<8; j=j+3){
+                var x_ = (obj.vertices()[i][j]+x)*Math.cos(angleZ)*Math.cos(angleY)-(obj.vertices()[i][j+1]+y)*Math.sin(angleZ)*Math.cos(angleY)+(obj.vertices()[i][j+2]+z)*Math.sin(angleY);
+               var y_ = (obj.vertices()[i][j]+x)*(Math.sin(angleZ)*Math.cos(angleX)+Math.cos(angleZ)*Math.sin(angleY)*Math.sin(angleX)) + (obj.vertices()[i][j+1]+y)*(Math.cos(angleZ)*Math.cos(angleX)-Math.sin(angleZ)*Math.sin(angleX)*Math.sin(angleY))-(obj.vertices()[i][j+2]+z)*Math.cos(angleY)*Math.sin(angleX);
+                var z_ = (obj.vertices()[i][j]+x)*(Math.sin(angleZ)*Math.sin(angleX)-Math.cos(angleX)*Math.sin(angleY)*Math.cos(angleZ))+(obj.vertices()[i][j+1]+y)*(Math.cos(angleZ)*Math.sin(angleX)+Math.cos(angleX)*Math.sin(angleY)*Math.sin(angleZ))+(obj.vertices()[i][j+2]+z)*Math.cos(angleY)*Math.cos(angleX);
+                temp.push(x_,y_,z_);
+            }
+        vertices.push(temp);    
+        colors.push(obj.colors()[i]);
+        } 
+    };
+    this.vertices = function(){
+        return vertices;
+    };
+    this.colors = function(){
+        return colors;
+    };
+    this.render = function(){
+      	//here we call on glRender
+      	//this is located in the html file
+      	//It's some pretty complicated stuff
+      	//and it doesn't even use javascript
+      	//so I decide to hide it away
+        glRender(vertices,colors);
+    };
+}
+  
+//to make a maze, we should first go into "developer mode"
+//change z to 0, y to -30, and angleX to 1/2*Math.PI
+var player = {
+    x: 0,
+    y: 0,
+    z: -30,
+    angleX:0,
+    angleY:0,
+    angleZ:0
+};
+//you'll have to press run to see your changes
+//now that we can see exactly what's going on
+//I highly recommend getting out a pen and paper
+//and draw by hand the maze you wish to build
+//then skip down to the maze function below and implement your drawing
+//after the walls are in place, take yourself out of "developer mode" and check where the walls meet.
+//when walls overlap, some weird effects creep in, so you'll have to do some fine tuning
+//happy coding :)
+
+function horizontalWall(x,z,length){
+    var wall = new cube(x,-1,z,2,1,length,1,1,0);
+    world.add(wall);
+}
+function verticalWall(x,z,length){
+    var wall = new cube(x,-1,z,2,length,1,0.5,0.9,0);
+    world.add(wall);
+}
+function maze(){
+    //inside
+    
+    horizontalWall(5,5,-10);
+    horizontalWall(-6,5,-10);
+    verticalWall(-5,4,10);
+    verticalWall(-5,-5,3);
+    verticalWall(2,-5,3);
+    
+    //2nd ring
+    verticalWall(-10,-10,8);
+    verticalWall(2,-10,8);
+    verticalWall(-10,10,20);
+    horizontalWall(-11,-10,10);
+    horizontalWall(10,-10,10);
+    horizontalWall(-11,5,6);
+    horizontalWall(10,5,6);
+    
+    
+    //outer wall
+    verticalWall(-15,-15,30);
+    verticalWall(-15,15,13);
+    verticalWall(2,15,13);
+    horizontalWall(-16,-15,31);
+    horizontalWall(15,-15,31);
+    
+    //roadblocks
+    horizontalWall(2,-5,-4);
+    horizontalWall(-3,-5,-4);
+    verticalWall(-15,5,4);
+}
+
+function goal(ticker){
+    var tower = new cube(-2,-1,-1,9,3,3,0.2,0.2,0.6);
+    var floater = new cube(-6,6,-1,1,1,1,1,0.1,0.7);
+   
+    var rotate1 = new scene(1,0,-1,0,ticker/8,0);
+    var rotate2 = new scene(1,0,-1,0,-ticker,0);
+    var rotate3 = new scene(1,0,-1,0,-ticker+2,0);
+    var rotate4 = new scene(1,0,-1,0,-ticker+4,0);
+    rotate1.add(tower);
+    rotate2.add(floater);
+    rotate3.add(floater);
+    rotate4.add(floater);
+
+    world.add(rotate1);
+    world.add(rotate2);
+    world.add(rotate3);
+    world.add(rotate4);
+}
+
+
+//this is the eventlistener, so that we can move the player 
+var keys = [];
+window.addEventListener("keydown", function (e) {
+  keys[e.keyCode] = true;
+});
+window.addEventListener("keyup", function (e) {
+  keys[e.keyCode] = false;
+});
+
+//and here is where we finally animate the world
+
+var ticker = 0;
+function tick(){
+    
+    if (keys[37]){player.angleY -= 0.05;}
+    if (keys[39]){player.angleY += 0.05;}
+    if (keys[40]) {
+        player.x += 0.15*Math.sin(player.angleY);
+        player.z -= 0.15*Math.cos(player.angleY);
+    }
+    if (keys[38]) {
+        player.x -= 0.15*Math.sin(player.angleY);
+        player.z += 0.15*Math.cos(player.angleY);
+    }
+   
+    world = new scene(player.x, player.y, player.z, player.angleX, player.angleY, player.angleZ);
+    
+   ticker += 0.1;
+    
+    maze();
+    goal(ticker);
+    
+    world.render();
+    //for stability reasons, requestAnimation is in the html
+  	//with that said, if the graphics start to lag, you should save your world and then refresh the page
+    request = requestAnimFrame(function(){tick();});
+    
+}
+//and finally we call tick to start the animation
+tick();
   </textarea>
   <script>
     var myCodeMirror = CodeMirror.fromTextArea(code,{
